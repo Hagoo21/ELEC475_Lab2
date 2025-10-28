@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+
+# Weights directory (but keep the directory structure)
+weights/*.pt
+weights/*.pth
+weights/*.csv
+weights/*.png
+
+# Output files
+*.csv
+*.png
+test_results*
+dataset_reality_check.png
+training_curve.png
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dataset (large files)
+images-original/
+*.jpg
+*.jpeg
+*.png
+train-noses.txt
+test-noses.txt
+
+# Keep certain files
+!requirements.txt
+!README.md
+
