@@ -1,0 +1,42 @@
+ELEC 475 Lab 2 - SnoutNet Usage Guide
+=====================================
+
+Quick Start:
+-----------
+1. Test model:       python model.py
+2. Test dataset:     python dataset.py
+3. Train:            python train.py
+4. Evaluate:         python test.py
+
+Changing Hyperparameters:
+------------------------
+Edit the function call at the bottom of each file:
+
+train.py:
+  train(epochs=50, batch_size=86, lr=0.001, augment=False)
+
+test.py:
+  test(batch_size=86, visualize=True, num_vis_samples=4)
+
+Default Settings:
+----------------
+- Batch size: 86
+- Epochs: 50
+- Learning rate: 0.001
+- Augmentation: False
+
+Files Overview:
+--------------
+model.py    - SnoutNet architecture
+dataset.py  - Dataset loader
+train.py    - Training script (outputs to weights/)
+test.py     - Evaluation script (outputs results CSVs and plots)
+
+Dataset Structure Required:
+--------------------------
+train-noses.txt
+test-noses.txt
+images-original/images/*.jpg
+
+Annotation format:  filename.jpg,"(x, y)"
+
