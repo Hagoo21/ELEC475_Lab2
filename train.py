@@ -96,10 +96,16 @@ def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_
           weights_dir=r'C:\Users\20sr91\ELEC475_Lab2\weights',
           num_workers=0):
     
+    # Create timestamped output folder for this training run
+    timestamp = time.strftime('%Y%m%d_%H%M%S')
+    run_dir = os.path.join(weights_dir, f'run_{timestamp}')
+    os.makedirs(run_dir, exist_ok=True)
+    
     print("=" * 70)
     print("SnoutNet Training")
     print("=" * 70)
     print(f"Epochs: {epochs} | Batch size: {batch_size} | LR: {lr} | Augment: {augment}")
+    print(f"Output folder: {run_dir}")
     print("=" * 70)
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -152,8 +158,6 @@ def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
     
-    os.makedirs(weights_dir, exist_ok=True)
-    
     print("\n" + "=" * 70)
     print("Starting training...")
     print("=" * 70)
@@ -181,7 +185,7 @@ def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_
         
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            checkpoint_path = os.path.join(weights_dir, 'snoutnet.pt')
+            checkpoint_path = os.path.join(run_dir, 'snoutnet.pt')
             torch.save({
                 'epoch': epoch,
                 'model_state_dict': model.state_dict(),
@@ -198,10 +202,10 @@ def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_
     print("=" * 70)
     print(f"Total time: {total_time / 60:.2f} minutes | Best val loss: {best_val_loss:.6f}")
     
-    csv_path = os.path.join(weights_dir, 'training_losses.csv')
+    csv_path = os.path.join(run_dir, 'training_losses.csv')
     save_losses_to_csv(train_losses, val_losses, csv_path)
     
-    plot_path = os.path.join(weights_dir, 'training_curve.png')
+    plot_path = os.path.join(run_dir, 'training_curve.png')
     plot_losses(train_losses, val_losses, plot_path)
 
 
