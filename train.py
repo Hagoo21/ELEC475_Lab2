@@ -6,6 +6,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 from model import SnoutNet
 from dataset import PetNoseDataset
@@ -34,7 +35,8 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device):
     running_loss = 0.0
     num_batches = 0
     
-    for images, labels in dataloader:
+    progress_bar = tqdm(dataloader, desc='Training', leave=False)
+    for images, labels in progress_bar:
         images = images.to(device)
         labels = labels.to(device)
         
@@ -46,6 +48,7 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device):
         
         running_loss += loss.item()
         num_batches += 1
+        progress_bar.set_postfix({'loss': f'{loss.item():.4f}'})
     
     return running_loss / num_batches
 
@@ -56,7 +59,8 @@ def validate(model, dataloader, criterion, device):
     num_batches = 0
     
     with torch.no_grad():
-        for images, labels in dataloader:
+        progress_bar = tqdm(dataloader, desc='Validation', leave=False)
+        for images, labels in progress_bar:
             images = images.to(device)
             labels = labels.to(device)
             
@@ -65,6 +69,7 @@ def validate(model, dataloader, criterion, device):
             
             running_loss += loss.item()
             num_batches += 1
+            progress_bar.set_postfix({'loss': f'{loss.item():.4f}'})
     
     return running_loss / num_batches
 
@@ -112,7 +117,11 @@ def train(train_file='train-noses.txt',
     print("=" * 70)
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"\nUsing device: {device}")
+    if device.type == 'cuda':
+        print(f"\n🚀 Using GPU: {torch.cuda.get_device_name(0)}")
+    else:
+        print(f"\n⚠️  Using CPU (Training will be slow)")
+    print(f"Device: {device}")
     
     train_transform = get_augmented_transform() if augment else get_standard_transform()
     val_transform = get_standard_transform()

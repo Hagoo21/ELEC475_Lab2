@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 from PIL import Image
+from tqdm import tqdm
 
 from model import SnoutNet
 from dataset import PetNoseDataset
@@ -22,7 +23,8 @@ def evaluate_model(model, dataloader, device):
     all_distances = []
     
     with torch.no_grad():
-        for images, labels in dataloader:
+        progress_bar = tqdm(dataloader, desc='Evaluating', unit='batch')
+        for images, labels in progress_bar:
             images = images.to(device)
             labels = labels.to(device)
             
@@ -32,6 +34,9 @@ def evaluate_model(model, dataloader, device):
             all_predictions.append(outputs.cpu().numpy())
             all_ground_truths.append(labels.cpu().numpy())
             all_distances.append(distances.cpu().numpy())
+            
+            avg_dist = distances.mean().item()
+            progress_bar.set_postfix({'avg_dist': f'{avg_dist:.2f}px'})
     
     predictions = np.vstack(all_predictions)
     ground_truths = np.vstack(all_ground_truths)
@@ -106,7 +111,11 @@ def test(model_path='weights/snoutnet.pt',
     print("=" * 70)
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Using device: {device}")
+    if device.type == 'cuda':
+        print(f"🚀 Using GPU: {torch.cuda.get_device_name(0)}")
+    else:
+        print(f"⚠️  Using CPU")
+    print(f"Device: {device}")
     
     print(f"\nLoading model from {model_path}...")
     model = SnoutNet().to(device)
