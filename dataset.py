@@ -1,6 +1,6 @@
 import os
 import ast
-from typing import Tuple
+from typing import Tuple, Optional
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -112,9 +112,9 @@ def reality_check(dataset: PetNoseDataset, num_samples: int = 5, visualize: bool
 
 # ======== Main Test Code ======== #
 if __name__ == "__main__":
-    train_file = 'train-noses.txt'
-    test_file = 'test-noses.txt'
-    img_dir = 'images-original/images'
+    train_file = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt'
+    test_file = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt'
+    img_dir = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images'
     
     print("\n" + "=" * 70)
     print("Testing Training Dataset")

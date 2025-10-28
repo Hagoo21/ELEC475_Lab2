@@ -69,7 +69,7 @@ persian_cat_22.jpg,"(156, 189)"
 ### Issue: Files not found
 **Solution:** Make sure you're in the project directory:
 ```bash
-cd C:\Users\shaya\ELEC475_Lab2
+cd C:\Users\20sr91\ELEC475_Lab2
 ```
 
 ### Issue: CUDA out of memory

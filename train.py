@@ -10,27 +10,10 @@ from tqdm import tqdm
 
 from model import SnoutNet
 from dataset import PetNoseDataset
+from augmentations import KorniaAugmentation
 
 
-def get_augmented_transform(target_size=(227, 227)):
-    return transforms.Compose([
-        transforms.Resize(target_size),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
-        transforms.RandomRotation(degrees=15),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
-
-
-def get_standard_transform(target_size=(227, 227)):
-    return transforms.Compose([
-        transforms.Resize(target_size),
-        transforms.ToTensor(),
-    ])
-
-
-def train_one_epoch(model, dataloader, criterion, optimizer, device):
+def train_one_epoch(model, dataloader, criterion, optimizer, device, augmentor=None):
     model.train()
     running_loss = 0.0
     num_batches = 0
@@ -39,6 +22,9 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device):
     for images, labels in progress_bar:
         images = images.to(device)
         labels = labels.to(device)
+        
+        if augmentor is not None:
+            images, labels = augmentor(images, labels)
         
         optimizer.zero_grad()
         outputs = model(images)
@@ -100,14 +86,14 @@ def save_losses_to_csv(train_losses, val_losses, save_path='training_losses.csv'
     print(f"Losses saved to {save_path}")
 
 
-def train(train_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt', 
-          test_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt',
-          img_dir=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images',
+def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt', 
+          test_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt',
+          img_dir=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images',
           epochs=50,
           batch_size=86,
           lr=0.001,
           augment=False,
-          weights_dir=r'C:\Users\20mmz2\ELEC475_Lab2\weights',
+          weights_dir=r'C:\Users\20sr91\ELEC475_Lab2\weights',
           num_workers=0):
     
     print("=" * 70)
@@ -123,21 +109,23 @@ def train(train_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_
         print(f"\n⚠️  Using CPU (Training will be slow)")
     print(f"Device: {device}")
     
-    train_transform = get_augmented_transform() if augment else get_standard_transform()
-    val_transform = get_standard_transform()
+    if augment:
+        print("\n✓ GPU-accelerated augmentation enabled (Kornia)")
+        augmentor = KorniaAugmentation(p_hflip=0.5, rotation_degrees=15).to(device)
+    else:
+        print("\n✗ Augmentation disabled")
+        augmentor = None
     
     print(f"\nLoading datasets...")
     train_dataset = PetNoseDataset(
         annotations_file=train_file,
         img_dir=img_dir,
-        transform=train_transform,
         target_size=(227, 227)
     )
     
     val_dataset = PetNoseDataset(
         annotations_file=test_file,
         img_dir=img_dir,
-        transform=val_transform,
         target_size=(227, 227)
     )
     
@@ -178,7 +166,7 @@ def train(train_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_
     for epoch in range(1, epochs + 1):
         epoch_start = time.time()
         
-        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, device, augmentor)
         val_loss = validate(model, val_loader, criterion, device)
         
         train_losses.append(train_loss)
