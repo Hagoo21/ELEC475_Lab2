@@ -100,14 +100,14 @@ def save_losses_to_csv(train_losses, val_losses, save_path='training_losses.csv'
     print(f"Losses saved to {save_path}")
 
 
-def train(train_file='train-noses.txt', 
-          test_file='test-noses.txt',
-          img_dir='images-original/images',
+def train(train_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt', 
+          test_file=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt',
+          img_dir=r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images',
           epochs=50,
           batch_size=86,
           lr=0.001,
           augment=False,
-          weights_dir='weights',
+          weights_dir=r'C:\Users\20mmz2\ELEC475_Lab2\weights',
           num_workers=0):
     
     print("=" * 70)
