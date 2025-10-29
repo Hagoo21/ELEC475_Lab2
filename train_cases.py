@@ -247,11 +247,11 @@ def train_model(model, model_name, train_file, test_file, img_dir,
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-# Construct absolute paths from config
-TRAIN_FILE = os.path.join(BASE_PATH, CONFIG['paths']['train_file'])
-TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
-IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
-WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['weights_dir'])
+# Construct absolute paths from config (normalize for cross-platform compatibility)
+TRAIN_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['train_file']))
+TEST_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['test_file']))
+IMG_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['img_dir']))
+WEIGHTS_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['weights_dir']))
 
 # Training hyperparameters from config
 EPOCHS = CONFIG['training']['epochs']

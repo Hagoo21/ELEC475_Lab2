@@ -20,7 +20,6 @@ Setup Instructions:
    - SnoutNet-Ensemble.txt (Ensemble model)
 
 No Configuration Changes Needed:
-The code uses relative paths, so you do NOT need to modify config.json.
 Just make sure to run all commands from the project root directory.
 
 

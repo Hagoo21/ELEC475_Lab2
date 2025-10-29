@@ -28,11 +28,11 @@ def load_config():
 CONFIG = load_config()
 BASE_PATH = CONFIG['base_path']
 
-# Construct default paths from config
-DEFAULT_TRAIN_FILE = os.path.join(BASE_PATH, CONFIG['paths']['train_file'])
-DEFAULT_TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
-DEFAULT_IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
-DEFAULT_WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['weights_dir'])
+# Construct default paths from config (normalize for cross-platform compatibility)
+DEFAULT_TRAIN_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['train_file']))
+DEFAULT_TEST_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['test_file']))
+DEFAULT_IMG_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['img_dir']))
+DEFAULT_WEIGHTS_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['weights_dir']))
 DEFAULT_EPOCHS = CONFIG['training']['epochs']
 DEFAULT_BATCH_SIZE = CONFIG['training']['batch_size']
 DEFAULT_LR = CONFIG['training']['learning_rate']

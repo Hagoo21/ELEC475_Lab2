@@ -243,15 +243,15 @@ def main():
     print("SnoutNet Ensemble Visualization")
     print("=" * 70)
     
-    # Default weight file paths from config
-    model_weights_dir = os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir'])
-    snoutnet_path = os.path.join(model_weights_dir, 'SnoutNet.pt')
-    alexnet_path = os.path.join(model_weights_dir, 'SnoutNetAlexNet.pt')
-    vgg16_path = os.path.join(model_weights_dir, 'SnoutNetVGG16.pt')
+    # Default weight file paths from config (normalize for cross-platform compatibility)
+    model_weights_dir = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir']))
+    snoutnet_path = os.path.normpath(os.path.join(model_weights_dir, 'SnoutNet.pt'))
+    alexnet_path = os.path.normpath(os.path.join(model_weights_dir, 'SnoutNetAlexNet.pt'))
+    vgg16_path = os.path.normpath(os.path.join(model_weights_dir, 'SnoutNetVGG16.pt'))
     
-    # Test dataset paths from config
-    test_file = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
-    img_dir = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
+    # Test dataset paths from config (normalize for cross-platform compatibility)
+    test_file = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['test_file']))
+    img_dir = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['img_dir']))
     
     print(f"\nWeight files:")
     print(f"  SnoutNet:  {snoutnet_path}")

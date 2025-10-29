@@ -378,11 +378,11 @@ def create_combined_table(results_list, save_path):
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-# Construct absolute paths from config
-TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
-IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
-MODEL_WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir'])
-OUTPUT_DIR = os.path.join(BASE_PATH, CONFIG['paths']['test_results_dir'])
+# Construct absolute paths from config (normalize for cross-platform compatibility)
+TEST_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['test_file']))
+IMG_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['img_dir']))
+MODEL_WEIGHTS_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir']))
+OUTPUT_DIR = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['test_results_dir']))
 
 # Testing parameters from config
 BATCH_SIZE = CONFIG['testing']['batch_size']
