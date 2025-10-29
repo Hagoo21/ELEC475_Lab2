@@ -214,12 +214,12 @@ def main():
     print("=" * 70)
     
     # Set paths (adjust these to match your directory structure)
-    weights_dir = os.path.join(os.getcwd(), 'model weights')
+    weights_dir = os.path.join(os.getcwd(), 'model_weights')
     
     # Default weight file paths
-    snoutnet_path = os.path.join(weights_dir, 'snoutnet.pt')
-    alexnet_path = os.path.join(weights_dir, 'snoutnet_alexnet.pt')
-    vgg16_path = os.path.join(weights_dir, 'snoutnet_vgg16.pt')
+    snoutnet_path = os.path.join(weights_dir, 'SnoutNet.pt')
+    alexnet_path = os.path.join(weights_dir, 'SnoutNetAlexNet.pt')
+    vgg16_path = os.path.join(weights_dir, 'SnoutNetVGG16.pt')
     
     # Test dataset paths
     test_file = os.path.join(os.getcwd(), 'oxford-iiit-pet-noses', 'test_noses.txt')
@@ -244,7 +244,7 @@ def main():
     if not weights_exist:
         print("⚠️  Warning: Some weight files are missing!")
         print("   The ensemble will use random initialization for missing models.")
-        print("   To use trained models, place .pt files in the 'model weights' folder:")
+        print("   To use trained models, place .pt files in the 'model_weights' folder:")
         print(f"   - {snoutnet_path}")
         print(f"   - {alexnet_path}")
         print(f"   - {vgg16_path}")
