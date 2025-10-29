@@ -12,11 +12,11 @@ def debug_weights():
     print("DEBUG: Checking Model Weights")
     print("=" * 70)
     
-    # Check if weight files exist
-    weights_dir = 'model_weights'
-    snoutnet_path = os.path.join(weights_dir, 'SnoutNet.pt')
-    alexnet_path = os.path.join(weights_dir, 'SnoutNetAlexNet.pt')
-    vgg16_path = os.path.join(weights_dir, 'SnoutNetVGG16.pt')
+    # Check if weight files exist (using absolute paths)
+    base_path = r'C:/Users/20mmz2/ELEC475_Lab2'
+    snoutnet_path = os.path.join(base_path, 'model_weights', 'SnoutNet.pt')
+    alexnet_path = os.path.join(base_path, 'model_weights', 'SnoutNetAlexNet.pt')
+    vgg16_path = os.path.join(base_path, 'model_weights', 'SnoutNetVGG16.pt')
     
     print(f"\nChecking weight files:")
     print(f"  SnoutNet:  {snoutnet_path} - {'✓ EXISTS' if os.path.exists(snoutnet_path) else '✗ MISSING'}")
@@ -64,8 +64,8 @@ def debug_weights():
     
     # Test with a real image
     print(f"\n\nTesting with real image:")
-    test_file = 'oxford-iiit-pet-noses/test_noses.txt'
-    img_dir = 'oxford-iiit-pet-noses/images-original/images'
+    test_file = os.path.join(base_path, 'oxford-iiit-pet-noses', 'test_noses.txt')
+    img_dir = os.path.join(base_path, 'oxford-iiit-pet-noses', 'images-original', 'images')
     
     dataset = PetNoseDataset(
         annotations_file=test_file,

@@ -226,17 +226,17 @@ def main():
     print("SnoutNet Ensemble Visualization")
     print("=" * 70)
     
-    # Set paths (adjust these to match your directory structure)
-    weights_dir = os.path.join(os.getcwd(), 'model_weights')
+    # Set paths using absolute paths
+    base_path = r'C:/Users/20mmz2/ELEC475_Lab2'
     
     # Default weight file paths
-    snoutnet_path = os.path.join(weights_dir, 'SnoutNet.pt')
-    alexnet_path = os.path.join(weights_dir, 'SnoutNetAlexNet.pt')
-    vgg16_path = os.path.join(weights_dir, 'SnoutNetVGG16.pt')
+    snoutnet_path = os.path.join(base_path, 'model_weights', 'SnoutNet.pt')
+    alexnet_path = os.path.join(base_path, 'model_weights', 'SnoutNetAlexNet.pt')
+    vgg16_path = os.path.join(base_path, 'model_weights', 'SnoutNetVGG16.pt')
     
     # Test dataset paths
-    test_file = os.path.join(os.getcwd(), 'oxford-iiit-pet-noses', 'test_noses.txt')
-    img_dir = os.path.join(os.getcwd(), 'oxford-iiit-pet-noses', 'images-original', 'images')
+    test_file = os.path.join(base_path, 'oxford-iiit-pet-noses', 'test_noses.txt')
+    img_dir = os.path.join(base_path, 'oxford-iiit-pet-noses', 'images-original', 'images')
     
     print(f"\nWeight files:")
     print(f"  SnoutNet:  {snoutnet_path}")
