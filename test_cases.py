@@ -244,10 +244,14 @@ def test_model(model, model_path, model_name, test_file, img_dir, output_dir,
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-TEST_FILE = r'oxford-iiit-pet-noses\test_noses.txt'
-IMG_DIR = r'oxford-iiit-pet-noses\images-original\images'
-MODEL_WEIGHTS_DIR = r'model_weights'
-OUTPUT_DIR = r'test_results'
+# Base path (use absolute path like in visualize_ensemble.py)
+BASE_PATH = r'C:/Users/20mmz2/ELEC475_Lab2'
+
+# Construct absolute paths
+TEST_FILE = os.path.join(BASE_PATH, 'oxford-iiit-pet-noses', 'test_noses.txt')
+IMG_DIR = os.path.join(BASE_PATH, 'oxford-iiit-pet-noses', 'images-original', 'images')
+MODEL_WEIGHTS_DIR = os.path.join(BASE_PATH, 'model_weights')
+OUTPUT_DIR = os.path.join(BASE_PATH, 'test_results')
 
 # Testing parameters
 BATCH_SIZE = 86
