@@ -22,7 +22,7 @@ def load_config():
 
 # Load config
 CONFIG = load_config()
-BASE_PATH = CONFIG['base_path']
+BASE_PATH = os.path.dirname(os.path.abspath(__file__)) if CONFIG['base_path'] == '.' else CONFIG['base_path']
 
 
 def compute_euclidean_distance(pred_coords, true_coords):

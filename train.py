@@ -26,7 +26,7 @@ def load_config():
 
 # Load config
 CONFIG = load_config()
-BASE_PATH = CONFIG['base_path']
+BASE_PATH = os.path.dirname(os.path.abspath(__file__)) if CONFIG['base_path'] == '.' else CONFIG['base_path']
 
 # Construct default paths from config (normalize for cross-platform compatibility)
 DEFAULT_TRAIN_FILE = os.path.normpath(os.path.join(BASE_PATH, CONFIG['paths']['train_file']))
