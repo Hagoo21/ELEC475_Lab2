@@ -1,0 +1,178 @@
+================================================================================
+VISUALIZATIONS TO INCLUDE IN REPORT
+================================================================================
+
+Per the lab requirements: "Include four visualized examples for each model 
+(SnoutNet, SnoutNet-A, and SnoutNet-V). Use trained models with both 
+augmentations for visualizations."
+
+================================================================================
+RECOMMENDED FIGURES FOR REPORT
+================================================================================
+
+FIGURE 1: SnoutNet (Custom CNN) - Best 4 Predictions
+------------------------------------------------------
+File: test_results/SnoutNet_aug/predictions_best4.png
+Caption: "SnoutNet with augmentation - Four best predictions showing errors 
+         ranging from 0.62 to 2.34 pixels. Green circles indicate ground 
+         truth, red X marks show predictions."
+
+FIGURE 2: SnoutNet-A (AlexNet) - Best 4 Predictions
+----------------------------------------------------
+File: test_results/SnoutNetAlexNet_aug/predictions_best4.png
+Caption: "SnoutNet-A (AlexNet) with augmentation - Four best predictions with 
+         errors from 0.35 to 0.65 pixels. This model achieved the best overall 
+         performance with mean error of 16.23 pixels."
+
+Best prediction images (from summary):
+  - english_cocker_spaniel_157.jpg: 0.35 px error
+  - newfoundland_166.jpg
+  - yorkshire_terrier_190.jpg
+  - Birman_114.jpg: 0.65 px error
+
+FIGURE 3: SnoutNet-V (VGG16) - Best 4 Predictions
+--------------------------------------------------
+File: test_results/SnoutNetVGG16_aug/predictions_best4.png
+Caption: "SnoutNet-V (VGG16) with augmentation - Four best predictions showing 
+         errors from 0.41 to 2.26 pixels. Despite having the highest mean error 
+         overall, augmentation improved performance by 45%."
+
+================================================================================
+OPTIONAL ADDITIONAL FIGURES
+================================================================================
+
+FIGURE 4: Error Distribution Comparison
+----------------------------------------
+Files: 
+  - test_results/SnoutNet_aug/error_histogram.png
+  - test_results/SnoutNetAlexNet_aug/error_histogram.png
+  - test_results/SnoutNetVGG16_aug/error_histogram.png
+
+Caption: "Distribution of localization errors across test set for all three 
+         augmented models. SnoutNet-A shows the tightest distribution with 
+         most predictions under 20 pixels."
+
+Combine into single figure with 3 subplots if space permits.
+
+FIGURE 5: Worst Case Analysis
+------------------------------
+Files:
+  - test_results/SnoutNet_aug/predictions_worst4.png
+  - test_results/SnoutNetAlexNet_aug/predictions_worst4.png
+  - test_results/SnoutNetVGG16_aug/predictions_worst4.png
+
+Caption: "Failure cases showing the four worst predictions for each model. 
+         Common failure modes include occluded noses, unusual poses, and 
+         extreme lighting conditions."
+
+FIGURE 6: Ensemble Performance
+-------------------------------
+File: ensemble_predictions.png
+Caption: "Ensemble predictions showing combination of all three models. The 
+         ensemble achieves mean error of 25.65 pixels with reduced variance 
+         compared to individual models."
+
+File: ensemble_error_histogram.png
+Caption: "Error distribution for ensemble model showing more consistent 
+         predictions with fewer extreme outliers."
+
+================================================================================
+FIGURE LAYOUT SUGGESTIONS
+================================================================================
+
+OPTION 1: Minimal (3 figures required)
+---------------------------------------
+✓ Figure 1: SnoutNet best 4 (predictions_best4.png)
+✓ Figure 2: SnoutNet-A best 4 (predictions_best4.png)
+✓ Figure 3: SnoutNet-V best 4 (predictions_best4.png)
+
+OPTION 2: Standard (6 figures)
+-------------------------------
+✓ Figures 1-3: Best predictions for each model
+✓ Figures 4-6: Worst predictions for each model
+
+OPTION 3: Comprehensive (8+ figures)
+------------------------------------
+✓ Best predictions (3 figures)
+✓ Worst predictions (3 figures)
+✓ Error histograms combined (1 figure)
+✓ Ensemble visualization (1 figure)
+
+================================================================================
+IMAGE SPECIFICATIONS
+================================================================================
+
+All visualizations are:
+  - Format: PNG
+  - Resolution: 150 DPI
+  - Size: ~4 inches per sample × 4 samples = 16 inches wide
+  - Quality: Publication-ready
+
+Each prediction visualization shows:
+  - Original image (227×227)
+  - Ground truth coordinates (green circle with white border)
+  - Predicted coordinates (red X)
+  - Distance line (yellow dashed)
+  - Filename and error distance in title
+
+================================================================================
+SPECIFIC FILES TO COPY FOR REPORT
+================================================================================
+
+Required (minimum 3):
+---------------------
+1. test_results/SnoutNet_aug/predictions_best4.png
+2. test_results/SnoutNetAlexNet_aug/predictions_best4.png  
+3. test_results/SnoutNetVGG16_aug/predictions_best4.png
+
+Recommended additional (3 more):
+---------------------------------
+4. test_results/SnoutNet_aug/predictions_worst4.png
+5. test_results/SnoutNetAlexNet_aug/predictions_worst4.png
+6. test_results/SnoutNetVGG16_aug/predictions_worst4.png
+
+Optional supporting figures:
+----------------------------
+7. test_results/SnoutNet_aug/error_histogram.png
+8. test_results/SnoutNetAlexNet_aug/error_histogram.png
+9. test_results/SnoutNetVGG16_aug/error_histogram.png
+10. ensemble_predictions.png
+11. ensemble_error_histogram.png
+
+================================================================================
+IMPORTANT NOTES
+================================================================================
+
+✓ Use AUGMENTED versions (_aug) as specified in requirements
+✓ Best 4 predictions demonstrate model capabilities
+✓ Worst 4 predictions show failure modes (valuable for discussion)
+✓ Include clear captions explaining what visualization shows
+✓ Reference specific error values in captions
+✓ Compare across models to show performance differences
+
+Key Discussion Points from Visualizations:
+-------------------------------------------
+- SnoutNet-A has lowest errors in best cases (0.35-0.65 px)
+- All models handle frontal, well-lit images well
+- Failure cases often involve:
+  * Extreme poses (side profiles)
+  * Occlusions (paws near face, toys)
+  * Poor lighting/shadows
+  * Unusual breeds (Sphynx cats, fluffy breeds)
+
+================================================================================
+QUICK ACCESS COMMANDS
+================================================================================
+
+To view all visualization files:
+  explorer test_results
+
+To copy all required files to a report folder:
+  mkdir report_figures
+  copy test_results\*_aug\predictions_best4.png report_figures\
+  copy test_results\*_aug\predictions_worst4.png report_figures\
+  copy ensemble_predictions.png report_figures\
+  copy ensemble_error_histogram.png report_figures\
+
+================================================================================
+

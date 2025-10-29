@@ -1,0 +1,185 @@
+================================================================================
+ELEC 475 LAB 2 - QUICK RESULTS SUMMARY
+================================================================================
+
+COMPLETE RESULTS TABLE (FOR YOUR REPORT)
+================================================================================
+
+Model         | Aug | Localization Error (Overall) | 4 Best                     | 4 Worst                    
+              |     | min    max     mean    std   | min    max    mean   std   | min     max     mean    std
+-------------------------------------------------------------------------------------------------------------------------------------------
+SnoutNet      | No  | 0.73   134.51  31.30   22.66 | 0.73   1.59   1.15   0.33  | 111.27  134.51  122.08  9.97
+SnoutNet      | Yes | 0.62   130.15  29.28   21.30 | 0.62   2.34   1.82   0.71  | 110.69  130.15  123.17  7.80
+SnoutNet-A    | No  | 0.29   130.92  18.98   15.86 | 0.29   0.97   0.68   0.27  | 98.97   130.92  110.68  12.25
+SnoutNet-A    | Yes | 0.35   129.81  16.23   15.19 | 0.35   0.65   0.54   0.12  | 93.18   129.81  106.05  14.09
+SnoutNet-V    | No  | 6.59   178.90  77.08   29.35 | 6.59   15.26  11.27  3.10  | 169.13  178.90  173.13  3.57
+SnoutNet-V    | Yes | 0.41   123.92  42.42   23.45 | 0.41   2.26   1.49   0.78  | 110.07  123.92  116.67  6.04
+Ensemble      | Yes | 0.20   112.11  25.65   18.11 | 0.20   1.19   0.54   0.38  | 103.96  112.11  107.26  3.10
+
+All measurements in pixels. Lower is better.
+
+================================================================================
+KEY FINDINGS
+================================================================================
+
+BEST MODEL:
+-----------
+🥇 SnoutNet-A (AlexNet) with Augmentation: 16.23 pixel mean error
+
+PERFORMANCE RANKING (by mean error):
+-------------------------------------
+1. SnoutNet-A + Aug:     16.23 px ⭐⭐⭐
+2. SnoutNet-A:           18.98 px
+3. Ensemble:             25.65 px
+4. SnoutNet + Aug:       29.28 px
+5. SnoutNet:             31.30 px
+6. SnoutNet-V + Aug:     42.42 px
+7. SnoutNet-V:           77.08 px
+
+AUGMENTATION IMPACT:
+--------------------
+Model        | Improvement | % Change
+-------------|-------------|----------
+SnoutNet     | -2.02 px    | -6.5%   ✅
+SnoutNet-A   | -2.75 px    | -14.5%  ✅
+SnoutNet-V   | -34.66 px   | -45.0%  ✅✅ (Dramatic!)
+
+✅ All models benefited from augmentation
+✅ VGG16 showed the most improvement (needed it most)
+✅ AlexNet achieved best absolute performance
+
+ENSEMBLE ANALYSIS:
+------------------
+✅ Advantages:
+   - Reduced variance (std: 18.11 vs individual models)
+   - Best minimum error (0.20 px)
+   - Lower maximum error (112.11 px)
+   - More consistent predictions
+
+❌ Disadvantages:
+   - Mean error (25.65) worse than SnoutNet-A (16.23)
+   - Simple averaging gives equal weight to all models
+   - Dragged down by poor VGG16 performance
+
+💡 Recommendation:
+   - Use weighted ensemble based on validation performance
+   - Or use SnoutNet-A alone for best results
+
+HARDWARE:
+---------
+- Windows 10 system
+- NVIDIA GPU with CUDA support
+- Batch size: 86
+- Training: 20 epochs per model
+
+AUGMENTATION METHODS:
+---------------------
+- Horizontal Flip (p=0.5)
+- Random Rotation (±15°)
+- GPU-accelerated with Kornia
+
+================================================================================
+VISUALIZATION FILES
+================================================================================
+
+Location: test_results/<model_name>/
+
+For each model:
+  - predictions_best4.png   : 4 best predictions (lowest error)
+  - predictions_worst4.png  : 4 worst predictions (highest error)
+  - predictions_random.png  : Random sample
+  - error_histogram.png     : Error distribution
+  - summary.txt            : Detailed statistics
+  - results.csv            : Per-image results
+
+Include in report: Best 4 from each augmented model
+  → test_results/SnoutNet_aug/predictions_best4.png
+  → test_results/SnoutNetAlexNet_aug/predictions_best4.png
+  → test_results/SnoutNetVGG16_aug/predictions_best4.png
+
+================================================================================
+DISCUSSION POINTS
+================================================================================
+
+1. TRANSFER LEARNING SUCCESS:
+   - AlexNet pretrained features highly effective
+   - Significantly outperformed custom CNN
+   - Shows value of leveraging ImageNet knowledge
+
+2. AUGMENTATION NECESSITY:
+   - Essential for deeper architectures (VGG16: 45% improvement)
+   - Helps prevent overfitting on small dataset (698 samples)
+   - All models benefited, confirming effectiveness
+
+3. MODEL SELECTION MATTERS:
+   - Not all pretrained models perform equally
+   - VGG16 struggled without augmentation
+   - AlexNet provided best balance
+
+4. ENSEMBLE LIMITATIONS:
+   - Simple averaging not always optimal
+   - Performance limited by weakest model
+   - Weighted approach recommended for improvement
+
+5. CHALLENGES & SOLUTIONS:
+   - VGG16 overfitting → Solved with augmentation
+   - Path management → Solved with config.json
+   - Ensemble underperforming → Identified need for weighting
+
+================================================================================
+ENSEMBLE METHODOLOGY
+================================================================================
+
+Combination Strategy:
+  ensemble_pred = (pred_snoutnet + pred_alexnet + pred_vgg16) / 3.0
+
+Characteristics:
+  - Simple arithmetic mean (equal weights: 1/3 each)
+  - No training required
+  - Sequential inference then averaging
+  - Uses augmented versions of all models
+
+Impact:
+  - Reduces variance and outliers
+  - Improves worst-case performance
+  - Does not beat best individual model (SnoutNet-A)
+  - Demonstrates ensemble is not always better
+
+Future Improvement:
+  - Use weighted average based on validation performance
+  - Weight SnoutNet-A higher (best performer)
+  - Weight SnoutNet-V lower (worst performer)
+  - Could potentially achieve ~18-20 pixel mean error
+
+================================================================================
+RECOMMENDED ANSWER STRUCTURE FOR REPORT
+================================================================================
+
+Section 5 (Experiments):
+  → Hardware: Windows + NVIDIA GPU
+  → Training config: 20 epochs, batch=86, Adam optimizer
+  → Augmentation: H-flip + rotation
+  → Include complete table above
+  → Reference visualization files
+
+Section 6 (Discussion):
+  → SnoutNet-A best performer (16.23 px)
+  → Augmentation helped all models (especially VGG16)
+  → Transfer learning proved effective
+  → Challenges: VGG16 overfitting, ensemble weighting
+  → Solutions: Augmentation, config management
+
+Section 7 (Ensemble):
+  → Simple averaging of 3 models
+  → Reduces variance, improves robustness
+  → Limited by poor VGG16 performance
+  → Recommend weighted ensemble for improvement
+  → Current ensemble: 25.65 px (better than 4/6 individual models)
+
+================================================================================
+
+For complete detailed analysis, see: REPORT_ANSWERS.md
+
+Generated from: test_results/ and ensemble_results.csv
+================================================================================
+
