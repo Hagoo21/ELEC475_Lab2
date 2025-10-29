@@ -1,0 +1,15 @@
+# SnoutNet-V (VGG16-based) Commands
+# NOTE: Run all commands from the project root directory (ELEC475_Lab2)
+
+# Train without Augmentations
+python train.py --model vgg16 --no-augment
+
+# Train with both Augmentations
+python train.py --model vgg16 --augment
+
+# Test
+python test.py --model vgg16 --weights model_weights/SnoutNetVGG16.pt
+
+# Visualize
+python visualize.py --model vgg16 --weights model_weights/SnoutNetVGG16.pt
+

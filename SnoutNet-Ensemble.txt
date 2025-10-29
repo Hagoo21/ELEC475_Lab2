@@ -1,0 +1,10 @@
+# SnoutNet-Ensemble Commands
+# NOTE: Run all commands from the project root directory (ELEC475_Lab2)
+# Note: Ensemble uses pretrained weights from SnoutNet, SnoutNet-A, and SnoutNet-V
+
+# Test
+python test.py --model ensemble --weights-dir model_weights
+
+# Visualize
+python visualize.py --model ensemble --weights-dir model_weights
+

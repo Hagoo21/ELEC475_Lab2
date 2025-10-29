@@ -228,5 +228,167 @@ def test(model_path=None,
 
 
 if __name__ == "__main__":
-    test()
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Test SnoutNet models')
+    parser.add_argument('--model', type=str, default='snoutnet',
+                        choices=['snoutnet', 'alexnet', 'vgg16', 'ensemble'],
+                        help='Model architecture to test')
+    parser.add_argument('--weights', type=str, default=None,
+                        help='Path to model weights file (.pt)')
+    parser.add_argument('--weights-dir', type=str, default=None,
+                        help='Directory containing model weights (for ensemble)')
+    parser.add_argument('--output-dir', type=str, default=None,
+                        help='Directory to save test results')
+    parser.add_argument('--batch-size', type=int, default=None,
+                        help='Batch size for testing')
+    parser.add_argument('--no-visualize', action='store_true',
+                        help='Disable visualizations')
+    
+    args = parser.parse_args()
+    
+    # Use test_cases functions for consistent testing
+    from test_cases import test_model, TEST_FILE, IMG_DIR, MODEL_WEIGHTS_DIR, OUTPUT_DIR, BATCH_SIZE, NUM_VIS_SAMPLES
+    
+    # Set output directory
+    output_dir = args.output_dir if args.output_dir else OUTPUT_DIR
+    batch_size = args.batch_size if args.batch_size else BATCH_SIZE
+    
+    if args.model == 'ensemble':
+        # Handle ensemble testing separately
+        weights_dir = args.weights_dir if args.weights_dir else MODEL_WEIGHTS_DIR
+        
+        import os
+        from ensemble_model import SnoutNetEnsemble
+        import torch
+        import numpy as np
+        from torch.utils.data import DataLoader
+        
+        print(f"\n{'='*70}")
+        print(f"Testing Ensemble Model")
+        print(f"{'='*70}\n")
+        
+        # Load ensemble
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        snoutnet_path = os.path.join(weights_dir, 'SnoutNet.pt')
+        alexnet_path = os.path.join(weights_dir, 'SnoutNetAlexNet.pt')
+        vgg16_path = os.path.join(weights_dir, 'SnoutNetVGG16.pt')
+        
+        ensemble = SnoutNetEnsemble(
+            snoutnet_path=snoutnet_path,
+            alexnet_path=alexnet_path,
+            vgg16_path=vgg16_path,
+            device=device
+        )
+        
+        # Load test dataset
+        from dataset import PetNoseDataset
+        test_dataset = PetNoseDataset(
+            annotations_file=TEST_FILE,
+            img_dir=IMG_DIR,
+            target_size=(227, 227)
+        )
+        
+        # Evaluate ensemble
+        from visualize_ensemble import evaluate_ensemble
+        metrics, predictions, ground_truths, distances = evaluate_ensemble(
+            ensemble=ensemble,
+            dataset=test_dataset,
+            batch_size=batch_size
+        )
+        
+        # Save results
+        import matplotlib.pyplot as plt
+        ensemble_output_dir = os.path.join(output_dir, 'Ensemble')
+        os.makedirs(ensemble_output_dir, exist_ok=True)
+        
+        csv_path = os.path.join(ensemble_output_dir, 'results.csv')
+        with open(csv_path, 'w') as f:
+            f.write('filename,pred_x,pred_y,true_x,true_y,distance\n')
+            for i in range(len(test_dataset)):
+                filename = test_dataset.get_filename(i)
+                pred_x, pred_y = predictions[i]
+                true_x, true_y = ground_truths[i]
+                dist = distances[i]
+                f.write(f'{filename},{pred_x:.4f},{pred_y:.4f},{true_x:.4f},{true_y:.4f},{dist:.4f}\n')
+        print(f"✓ Results saved to {csv_path}")
+        
+        # Save summary
+        summary_path = os.path.join(ensemble_output_dir, 'summary.txt')
+        with open(summary_path, 'w') as f:
+            f.write(f"Ensemble Model Evaluation\n")
+            f.write(f"Samples: {metrics['num_samples']}\n")
+            f.write(f"Min: {metrics['min_distance']:.4f}\n")
+            f.write(f"Max: {metrics['max_distance']:.4f}\n")
+            f.write(f"Mean: {metrics['mean_distance']:.4f}\n")
+            f.write(f"Median: {metrics['median_distance']:.4f}\n")
+            f.write(f"Std: {metrics['std_distance']:.4f}\n")
+        print(f"✓ Summary saved to {summary_path}")
+        
+        # Create histogram
+        plt.figure(figsize=(10, 6))
+        plt.hist(distances, bins=50, edgecolor='black', alpha=0.7)
+        plt.axvline(metrics['mean_distance'], color='red', linestyle='--', linewidth=2,
+                   label=f"Mean: {metrics['mean_distance']:.2f}")
+        plt.axvline(metrics['median_distance'], color='green', linestyle='--', linewidth=2,
+                   label=f"Median: {metrics['median_distance']:.2f}")
+        plt.xlabel('Euclidean Distance (pixels)', fontsize=12)
+        plt.ylabel('Frequency', fontsize=12)
+        plt.title('Ensemble - Distribution of Prediction Errors', fontsize=14, fontweight='bold')
+        plt.legend(fontsize=10)
+        plt.grid(True, alpha=0.3)
+        plt.tight_layout()
+        hist_path = os.path.join(ensemble_output_dir, 'error_histogram.png')
+        plt.savefig(hist_path, dpi=150, bbox_inches='tight')
+        print(f"✓ Histogram saved to {hist_path}")
+        plt.close()
+        
+        print("\n✓ Testing complete!")
+        
+    else:
+        # Handle individual model testing
+        if args.weights is None:
+            # Use default weights path
+            if args.model == 'snoutnet':
+                model_file = 'SnoutNet.pt'
+            elif args.model == 'alexnet':
+                model_file = 'SnoutNetAlexNet.pt'
+            elif args.model == 'vgg16':
+                model_file = 'SnoutNetVGG16.pt'
+            
+            weights_path = os.path.join(MODEL_WEIGHTS_DIR, model_file)
+        else:
+            weights_path = args.weights
+        
+        # Import and create model
+        if args.model == 'snoutnet':
+            from model import SnoutNet
+            model = SnoutNet()
+            model_name = 'SnoutNet'
+        elif args.model == 'alexnet':
+            from snoutnet_alexnet import SnoutNetAlexNet
+            model = SnoutNetAlexNet(pretrained=False)
+            model_name = 'SnoutNetAlexNet'
+        elif args.model == 'vgg16':
+            from snoutnet_vgg16 import SnoutNetVGG16
+            model = SnoutNetVGG16(pretrained=False)
+            model_name = 'SnoutNetVGG16'
+        
+        print(f"\n{'='*70}")
+        print(f"Testing {model_name}")
+        print(f"Weights: {weights_path}")
+        print(f"{'='*70}\n")
+        
+        # Run test
+        test_model(
+            model=model,
+            model_path=weights_path,
+            model_name=model_name,
+            test_file=TEST_FILE,
+            img_dir=IMG_DIR,
+            output_dir=output_dir,
+            batch_size=batch_size,
+            visualize=not args.no_visualize,
+            num_vis_samples=NUM_VIS_SAMPLES
+        )
 

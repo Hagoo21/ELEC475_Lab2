@@ -1,0 +1,15 @@
+# SnoutNet-A (AlexNet-based) Commands
+# NOTE: Run all commands from the project root directory (ELEC475_Lab2)
+
+# Train without Augmentations
+python train.py --model alexnet --no-augment
+
+# Train with both Augmentations
+python train.py --model alexnet --augment
+
+# Test
+python test.py --model alexnet --weights model_weights/SnoutNetAlexNet.pt
+
+# Visualize
+python visualize.py --model alexnet --weights model_weights/SnoutNetAlexNet.pt
+

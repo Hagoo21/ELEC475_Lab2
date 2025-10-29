@@ -246,5 +246,61 @@ def train(train_file=None,
 
 
 if __name__ == "__main__":
-    train()
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Train SnoutNet models')
+    parser.add_argument('--model', type=str, default='snoutnet',
+                        choices=['snoutnet', 'alexnet', 'vgg16'],
+                        help='Model architecture to train (snoutnet, alexnet, vgg16)')
+    parser.add_argument('--augment', dest='augment', action='store_true',
+                        help='Enable data augmentation')
+    parser.add_argument('--no-augment', dest='augment', action='store_false',
+                        help='Disable data augmentation')
+    parser.add_argument('--epochs', type=int, default=None,
+                        help='Number of epochs (default: from config.json)')
+    parser.add_argument('--batch-size', type=int, default=None,
+                        help='Batch size (default: from config.json)')
+    parser.add_argument('--lr', type=float, default=None,
+                        help='Learning rate (default: from config.json)')
+    parser.set_defaults(augment=False)
+    
+    args = parser.parse_args()
+    
+    # Import model based on selection
+    if args.model == 'snoutnet':
+        from model import SnoutNet
+        model = SnoutNet()
+        model_name = 'SnoutNet'
+    elif args.model == 'alexnet':
+        from snoutnet_alexnet import SnoutNetAlexNet
+        model = SnoutNetAlexNet(pretrained=True)
+        model_name = 'SnoutNetAlexNet'
+    elif args.model == 'vgg16':
+        from snoutnet_vgg16 import SnoutNetVGG16
+        model = SnoutNetVGG16(pretrained=True)
+        model_name = 'SnoutNetVGG16'
+    
+    print(f"\n{'='*70}")
+    print(f"Training {model_name}")
+    print(f"Augmentation: {'ENABLED' if args.augment else 'DISABLED'}")
+    print(f"{'='*70}\n")
+    
+    # Use the generic train function from train_cases.py
+    import time
+    import torch.optim as optim
+    from train_cases import train_model, TRAIN_FILE, TEST_FILE, IMG_DIR, WEIGHTS_DIR
+    
+    train_model(
+        model=model,
+        model_name=model_name,
+        train_file=TRAIN_FILE,
+        test_file=TEST_FILE,
+        img_dir=IMG_DIR,
+        epochs=args.epochs if args.epochs is not None else DEFAULT_EPOCHS,
+        batch_size=args.batch_size if args.batch_size is not None else DEFAULT_BATCH_SIZE,
+        lr=args.lr if args.lr is not None else DEFAULT_LR,
+        augment=args.augment,
+        weights_dir=WEIGHTS_DIR,
+        num_workers=DEFAULT_NUM_WORKERS
+    )
 
