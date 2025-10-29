@@ -35,9 +35,7 @@ weights/*.csv
 weights/*.png
 
 # Output files
-*.csv
-*.png
-test_results*
+
 dataset_reality_check.png
 training_curve.png
 
@@ -59,7 +57,7 @@ Thumbs.db
 images-original/
 *.jpg
 *.jpeg
-*.png
+
 train-noses.txt
 test-noses.txt
 

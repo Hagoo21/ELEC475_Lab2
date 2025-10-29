@@ -1,0 +1,33 @@
+======================================================================
+SnoutNetAlexNet_aug Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNetAlexNet_aug.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    0.3499
+  Max:    129.8141
+  Mean:   16.2268
+  Median: 11.7083
+  Std:    15.1853
+
+4 BEST PREDICTIONS:
+  Min:  0.3499
+  Max:  0.6515
+  Mean: 0.5366
+  Std:  0.1188
+  Images: english_cocker_spaniel_157.jpg, newfoundland_166.jpg, yorkshire_terrier_190.jpg, Birman_114.jpg
+
+4 WORST PREDICTIONS:
+  Min:  93.1822
+  Max:  129.8141
+  Mean: 106.0538
+  Std:  14.0918
+  Images: Sphynx_110.jpg, Russian_Blue_205.jpg, scottish_terrier_109.jpg, english_setter_86.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 0.3499 | 129.8141 | 16.2268 | 15.1853
+4 Best:  0.3499 | 0.6515 | 0.5366 | 0.1188
+4 Worst: 93.1822 | 129.8141 | 106.0538 | 14.0918

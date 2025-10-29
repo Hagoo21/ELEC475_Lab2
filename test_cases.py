@@ -403,7 +403,7 @@ NUM_VIS_SAMPLES = CONFIG['testing']['num_vis_samples']
 # ============================================================================
 # UNCOMMENT TO RUN:
 # from model import SnoutNet
-# 
+
 # model = SnoutNet()
 # results_1 = test_model(
 #     model=model,
@@ -423,7 +423,7 @@ NUM_VIS_SAMPLES = CONFIG['testing']['num_vis_samples']
 # ============================================================================
 # UNCOMMENT TO RUN:
 # from model import SnoutNet
-# 
+
 # model = SnoutNet()
 # results_2 = test_model(
 #     model=model,
@@ -524,47 +524,47 @@ NUM_VIS_SAMPLES = CONFIG['testing']['num_vis_samples']
 # Uncomment this section to test all models and create a combined results table
 # Make sure to comment out individual cases above if using this section
 # 
-# # Store all results
-# all_results = []
-# 
-# # Test all 6 models
-# from model import SnoutNet
-# from snoutnet_alexnet import SnoutNetAlexNet
-# from snoutnet_vgg16 import SnoutNetVGG16
-# 
-# models_to_test = [
-#     (SnoutNet(), 'SnoutNet.pt', 'SnoutNet'),
-#     (SnoutNet(), 'SnoutNet_aug.pt', 'SnoutNet_aug'),
-#     (SnoutNetAlexNet(pretrained=False), 'SnoutNetAlexNet.pt', 'SnoutNetAlexNet'),
-#     (SnoutNetAlexNet(pretrained=False), 'SnoutNetAlexNet_aug.pt', 'SnoutNetAlexNet_aug'),
-#     (SnoutNetVGG16(pretrained=False), 'SnoutNetVGG16.pt', 'SnoutNetVGG16'),
-#     (SnoutNetVGG16(pretrained=False), 'SnoutNetVGG16_aug.pt', 'SnoutNetVGG16_aug'),
-# ]
-# 
-# for model, weight_file, model_name in models_to_test:
-#     print(f"\n{'='*70}")
-#     print(f"Testing {model_name}")
-#     print(f"{'='*70}")
-#     
-#     result = test_model(
-#         model=model,
-#         model_path=os.path.join(MODEL_WEIGHTS_DIR, weight_file),
-#         model_name=model_name,
-#         test_file=TEST_FILE,
-#         img_dir=IMG_DIR,
-#         output_dir=OUTPUT_DIR,
-#         batch_size=BATCH_SIZE,
-#         visualize=True,
-#         num_vis_samples=NUM_VIS_SAMPLES
-#     )
-#     all_results.append(result)
-# 
-# # Create combined table
-# combined_table_path = os.path.join(OUTPUT_DIR, 'COMBINED_RESULTS_TABLE.txt')
-# create_combined_table(all_results, combined_table_path)
-# 
-# print("\n" + "=" * 70)
-# print("✓ ALL TESTING COMPLETE!")
-# print(f"✓ Combined results table: {combined_table_path}")
-# print("=" * 70)
+# Store all results
+all_results = []
+
+# Test all 6 models
+from model import SnoutNet
+from snoutnet_alexnet import SnoutNetAlexNet
+from snoutnet_vgg16 import SnoutNetVGG16
+
+models_to_test = [
+    (SnoutNet(), 'SnoutNet.pt', 'SnoutNet'),
+    (SnoutNet(), 'SnoutNet_aug.pt', 'SnoutNet_aug'),
+    (SnoutNetAlexNet(pretrained=False), 'SnoutNetAlexNet.pt', 'SnoutNetAlexNet'),
+    (SnoutNetAlexNet(pretrained=False), 'SnoutNetAlexNet_aug.pt', 'SnoutNetAlexNet_aug'),
+    (SnoutNetVGG16(pretrained=False), 'SnoutNetVGG16.pt', 'SnoutNetVGG16'),
+    (SnoutNetVGG16(pretrained=False), 'SnoutNetVGG16_aug.pt', 'SnoutNetVGG16_aug'),
+]
+
+for model, weight_file, model_name in models_to_test:
+    print(f"\n{'='*70}")
+    print(f"Testing {model_name}")
+    print(f"{'='*70}")
+    
+    result = test_model(
+        model=model,
+        model_path=os.path.join(MODEL_WEIGHTS_DIR, weight_file),
+        model_name=model_name,
+        test_file=TEST_FILE,
+        img_dir=IMG_DIR,
+        output_dir=OUTPUT_DIR,
+        batch_size=BATCH_SIZE,
+        visualize=True,
+        num_vis_samples=NUM_VIS_SAMPLES
+    )
+    all_results.append(result)
+
+# Create combined table
+combined_table_path = os.path.join(OUTPUT_DIR, 'COMBINED_RESULTS_TABLE.txt')
+create_combined_table(all_results, combined_table_path)
+
+print("\n" + "=" * 70)
+print("✓ ALL TESTING COMPLETE!")
+print(f"✓ Combined results table: {combined_table_path}")
+print("=" * 70)
 

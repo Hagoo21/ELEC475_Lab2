@@ -1,0 +1,33 @@
+======================================================================
+SnoutNet_aug Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNet_aug.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    0.6197
+  Max:    130.1455
+  Mean:   29.2803
+  Median: 23.9594
+  Std:    21.2994
+
+4 BEST PREDICTIONS:
+  Min:  0.6197
+  Max:  2.3407
+  Mean: 1.8244
+  Std:  0.7094
+  Images: Persian_30.jpg, german_shorthaired_35.jpg, shiba_inu_39.jpg, Persian_265.jpg
+
+4 WORST PREDICTIONS:
+  Min:  110.6867
+  Max:  130.1455
+  Mean: 123.1718
+  Std:  7.8021
+  Images: staffordshire_bull_terrier_190.jpg, american_bulldog_217.jpg, Egyptian_Mau_146.jpg, scottish_terrier_109.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 0.6197 | 130.1455 | 29.2803 | 21.2994
+4 Best:  0.6197 | 2.3407 | 1.8244 | 0.7094
+4 Worst: 110.6867 | 130.1455 | 123.1718 | 7.8021

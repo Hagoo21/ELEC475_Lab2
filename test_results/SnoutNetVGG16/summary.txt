@@ -1,0 +1,33 @@
+======================================================================
+SnoutNetVGG16 Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNetVGG16.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    6.5887
+  Max:    178.8993
+  Mean:   77.0764
+  Median: 74.2316
+  Std:    29.3528
+
+4 BEST PREDICTIONS:
+  Min:  6.5887
+  Max:  15.2605
+  Mean: 11.2673
+  Std:  3.0957
+  Images: staffordshire_bull_terrier_175.jpg, Abyssinian_7.jpg, beagle_38.jpg, samoyed_168.jpg
+
+4 WORST PREDICTIONS:
+  Min:  169.1318
+  Max:  178.8993
+  Mean: 173.1295
+  Std:  3.5678
+  Images: scottish_terrier_109.jpg, newfoundland_116.jpg, wheaten_terrier_77.jpg, Egyptian_Mau_146.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 6.5887 | 178.8993 | 77.0764 | 29.3528
+4 Best:  6.5887 | 15.2605 | 11.2673 | 3.0957
+4 Worst: 169.1318 | 178.8993 | 173.1295 | 3.5678

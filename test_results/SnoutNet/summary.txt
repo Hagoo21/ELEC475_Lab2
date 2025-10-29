@@ -1,0 +1,33 @@
+======================================================================
+SnoutNet Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNet.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    0.7276
+  Max:    134.5077
+  Mean:   31.3022
+  Median: 26.4740
+  Std:    22.6627
+
+4 BEST PREDICTIONS:
+  Min:  0.7276
+  Max:  1.5874
+  Mean: 1.1539
+  Std:  0.3261
+  Images: american_bulldog_50.jpg, samoyed_84.jpg, leonberger_67.jpg, Maine_Coon_129.jpg
+
+4 WORST PREDICTIONS:
+  Min:  111.2692
+  Max:  134.5077
+  Mean: 122.0783
+  Std:  9.9668
+  Images: american_bulldog_217.jpg, staffordshire_bull_terrier_190.jpg, scottish_terrier_109.jpg, Egyptian_Mau_146.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 0.7276 | 134.5077 | 31.3022 | 22.6627
+4 Best:  0.7276 | 1.5874 | 1.1539 | 0.3261
+4 Worst: 111.2692 | 134.5077 | 122.0783 | 9.9668

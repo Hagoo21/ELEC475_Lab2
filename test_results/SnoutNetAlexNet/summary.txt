@@ -1,0 +1,33 @@
+======================================================================
+SnoutNetAlexNet Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNetAlexNet.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    0.2893
+  Max:    130.9219
+  Mean:   18.9756
+  Median: 14.5311
+  Std:    15.8629
+
+4 BEST PREDICTIONS:
+  Min:  0.2893
+  Max:  0.9745
+  Mean: 0.6834
+  Std:  0.2694
+  Images: miniature_pinscher_137.jpg, beagle_154.jpg, yorkshire_terrier_48.jpg, samoyed_121.jpg
+
+4 WORST PREDICTIONS:
+  Min:  98.9655
+  Max:  130.9219
+  Mean: 110.6763
+  Std:  12.2450
+  Images: scottish_terrier_113.jpg, Russian_Blue_205.jpg, american_bulldog_217.jpg, scottish_terrier_109.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 0.2893 | 130.9219 | 18.9756 | 15.8629
+4 Best:  0.2893 | 0.9745 | 0.6834 | 0.2694
+4 Worst: 98.9655 | 130.9219 | 110.6763 | 12.2450

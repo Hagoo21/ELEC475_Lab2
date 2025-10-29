@@ -1,5 +1,5 @@
 {
-    "base_path": "C:/Users/shaya/ELEC475_Lab2",
+    "base_path": "C:/Users/20mmz2/ELEC475_Lab2",
     "paths": {
         "train_file": "oxford-iiit-pet-noses/train_noses.txt",
         "test_file": "oxford-iiit-pet-noses/test_noses.txt",

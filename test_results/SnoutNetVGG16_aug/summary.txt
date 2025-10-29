@@ -1,0 +1,33 @@
+======================================================================
+SnoutNetVGG16_aug Evaluation Summary
+======================================================================
+Model: C:/Users/20mmz2/ELEC475_Lab2\model_weights\SnoutNetVGG16_aug.pt
+Test Samples: 698
+
+OVERALL STATISTICS:
+  Min:    0.4050
+  Max:    123.9218
+  Mean:   42.4201
+  Median: 39.5627
+  Std:    23.4491
+
+4 BEST PREDICTIONS:
+  Min:  0.4050
+  Max:  2.2591
+  Mean: 1.4928
+  Std:  0.7793
+  Images: samoyed_121.jpg, Maine_Coon_136.jpg, Sphynx_194.jpg, shiba_inu_153.jpg
+
+4 WORST PREDICTIONS:
+  Min:  110.0707
+  Max:  123.9218
+  Mean: 116.6734
+  Std:  6.0402
+  Images: scottish_terrier_113.jpg, wheaten_terrier_77.jpg, Egyptian_Mau_146.jpg, american_bulldog_217.jpg
+
+======================================================================
+TABLE FORMAT (for copy-paste):
+======================================================================
+Overall: 0.4050 | 123.9218 | 42.4201 | 23.4491
+4 Best:  0.4050 | 2.2591 | 1.4928 | 0.7793
+4 Worst: 110.0707 | 123.9218 | 116.6734 | 6.0402
