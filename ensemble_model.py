@@ -92,6 +92,9 @@ class SnoutNetEnsemble(nn.Module):
         Returns:
             Tensor of shape [batch_size, 2] representing averaged (x, y) coordinates
         """
+        # Move input to the correct device
+        x = x.to(self.device)
+        
         # Get predictions from all three models
         with torch.no_grad():
             pred_snoutnet = self.snoutnet(x)
@@ -113,6 +116,9 @@ class SnoutNetEnsemble(nn.Module):
         Returns:
             Dictionary with predictions from each model and the ensemble average
         """
+        # Move input to the correct device
+        x = x.to(self.device)
+        
         with torch.no_grad():
             pred_snoutnet = self.snoutnet(x)
             pred_alexnet = self.snoutnet_alexnet(x)
