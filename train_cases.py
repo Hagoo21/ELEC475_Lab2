@@ -107,7 +107,7 @@ def save_losses_to_csv(train_losses, val_losses, save_path='training_losses.csv'
 
 def train_model(model, model_name, train_file, test_file, img_dir, 
                 epochs=50, batch_size=86, lr=0.001, augment=False, 
-                weights_dir=r'C:\Users\20sr91\ELEC475_Lab2\weights', num_workers=0):
+                weights_dir=r'C:\Users\20mmz2\ELEC475_Lab2\weights', num_workers=0):
     """
     Generic training function that works for any model.
     """
@@ -230,10 +230,10 @@ def train_model(model, model_name, train_file, test_file, img_dir,
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-TRAIN_FILE = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt'
-TEST_FILE = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt'
-IMG_DIR = r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images'
-WEIGHTS_DIR = r'C:\Users\20sr91\ELEC475_Lab2\weights'
+TRAIN_FILE = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt'
+TEST_FILE = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt'
+IMG_DIR = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images'
+WEIGHTS_DIR = r'C:\Users\20mmz2\ELEC475_Lab2\weights'
 
 # Training hyperparameters
 EPOCHS = 20
@@ -244,6 +244,28 @@ NUM_WORKERS = 0
 
 # ============================================================================
 # CASE 1: SnoutNet - Regular Dataset (NO AUGMENTATION)
+# ============================================================================
+# UNCOMMENT TO RUN:
+# from model import SnoutNet
+
+# model = SnoutNet()
+# train_model(
+#     model=model,
+#     model_name='SnoutNet',
+#     train_file=TRAIN_FILE,
+#     test_file=TEST_FILE,
+#     img_dir=IMG_DIR,
+#     epochs=EPOCHS,
+#     batch_size=BATCH_SIZE,
+#     lr=LEARNING_RATE,
+#     augment=False,
+#     weights_dir=WEIGHTS_DIR,
+#     num_workers=NUM_WORKERS
+# )
+
+
+# ============================================================================
+# CASE 2: SnoutNet - Augmented Dataset
 # ============================================================================
 # UNCOMMENT TO RUN:
 from model import SnoutNet
@@ -258,32 +280,10 @@ train_model(
     epochs=EPOCHS,
     batch_size=BATCH_SIZE,
     lr=LEARNING_RATE,
-    augment=False,
+    augment=True,
     weights_dir=WEIGHTS_DIR,
     num_workers=NUM_WORKERS
 )
-
-
-# ============================================================================
-# CASE 2: SnoutNet - Augmented Dataset
-# ============================================================================
-# UNCOMMENT TO RUN:
-# from model import SnoutNet
-# 
-# model = SnoutNet()
-# train_model(
-#     model=model,
-#     model_name='SnoutNet',
-#     train_file=TRAIN_FILE,
-#     test_file=TEST_FILE,
-#     img_dir=IMG_DIR,
-#     epochs=EPOCHS,
-#     batch_size=BATCH_SIZE,
-#     lr=LEARNING_RATE,
-#     augment=True,
-#     weights_dir=WEIGHTS_DIR,
-#     num_workers=NUM_WORKERS
-# )
 
 
 # ============================================================================
