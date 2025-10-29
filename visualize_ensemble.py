@@ -75,6 +75,15 @@ def visualize_ensemble_predictions(ensemble, dataset, num_samples=4,
         # Get individual model predictions for display
         individual_preds = ensemble.get_individual_predictions(image_batch)
         
+        # DEBUG: Print raw predictions
+        if i == 0:
+            print(f"\nDEBUG - Raw predictions for first image:")
+            print(f"  SnoutNet:  {individual_preds['snoutnet'][0].cpu().numpy()}")
+            print(f"  AlexNet:   {individual_preds['alexnet'][0].cpu().numpy()}")
+            print(f"  VGG16:     {individual_preds['vgg16'][0].cpu().numpy()}")
+            print(f"  Ensemble:  {individual_preds['ensemble'][0].cpu().numpy()}")
+            print(f"  True:      {label_tensor.numpy()}")
+        
         # Convert to numpy
         pred_x, pred_y = pred[0].cpu().numpy()
         true_x, true_y = label_tensor.numpy()
@@ -123,6 +132,10 @@ def visualize_ensemble_predictions(ensemble, dataset, num_samples=4,
         
         # Add legend
         axes[i].legend(loc='upper right', fontsize=8, framealpha=0.9)
+        
+        # Set axis limits to show full image range
+        axes[i].set_xlim(-10, 237)
+        axes[i].set_ylim(237, -10)  # Inverted for image coordinates
         axes[i].axis('off')
         
         print(f"  {i+1}. {filename:30s} - Error: {distance:.2f} px")
