@@ -1,4 +1,5 @@
 import os
+import json
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
@@ -9,6 +10,28 @@ from tqdm import tqdm
 
 from model import SnoutNet
 from dataset import PetNoseDataset
+
+
+# ============================================================================
+# LOAD CONFIGURATION
+# ============================================================================
+
+def load_config():
+    """Load configuration from config.json"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+# Load config
+CONFIG = load_config()
+BASE_PATH = CONFIG['base_path']
+
+# Construct default paths from config
+DEFAULT_MODEL_PATH = os.path.join(BASE_PATH, CONFIG['paths']['weights_dir'], 'snoutnet.pt')
+DEFAULT_TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
+DEFAULT_IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
+DEFAULT_BATCH_SIZE = CONFIG['testing']['batch_size']
+DEFAULT_NUM_VIS_SAMPLES = CONFIG['testing']['num_vis_samples']
 
 
 def compute_euclidean_distance(pred_coords, true_coords):
@@ -98,13 +121,20 @@ def visualize_predictions(dataset, predictions, ground_truths, distances, num_sa
     plt.show()
 
 
-def test(model_path='weights/snoutnet.pt',
-         test_file='test-noses.txt',
-         img_dir='images-original/images',
+def test(model_path=None,
+         test_file=None,
+         img_dir=None,
          output_csv='test_results.csv',
-         batch_size=86,
+         batch_size=None,
          visualize=True,
-         num_vis_samples=4):
+         num_vis_samples=None):
+    
+    # Use config defaults if not specified
+    model_path = model_path or DEFAULT_MODEL_PATH
+    test_file = test_file or DEFAULT_TEST_FILE
+    img_dir = img_dir or DEFAULT_IMG_DIR
+    batch_size = batch_size if batch_size is not None else DEFAULT_BATCH_SIZE
+    num_vis_samples = num_vis_samples if num_vis_samples is not None else DEFAULT_NUM_VIS_SAMPLES
     
     print("=" * 70)
     print("SnoutNet Testing")

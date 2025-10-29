@@ -14,9 +14,11 @@ Instructions:
 - Comment out the other cases
 - Each case is clearly marked with a header
 - Ensure all model weights are in the model_weights/ folder
+- Update base_path in config.json if needed
 """
 
 import os
+import json
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
@@ -26,6 +28,21 @@ from PIL import Image
 from tqdm import tqdm
 
 from dataset import PetNoseDataset
+
+
+# ============================================================================
+# LOAD CONFIGURATION
+# ============================================================================
+
+def load_config():
+    """Load configuration from config.json"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+# Load config
+CONFIG = load_config()
+BASE_PATH = CONFIG['base_path']
 
 
 # ============================================================================
@@ -244,18 +261,15 @@ def test_model(model, model_path, model_name, test_file, img_dir, output_dir,
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-# Base path (use absolute path like in visualize_ensemble.py)
-BASE_PATH = r'C:/Users/20mmz2/ELEC475_Lab2'
+# Construct absolute paths from config
+TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
+IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
+MODEL_WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir'])
+OUTPUT_DIR = os.path.join(BASE_PATH, CONFIG['paths']['test_results_dir'])
 
-# Construct absolute paths
-TEST_FILE = os.path.join(BASE_PATH, 'oxford-iiit-pet-noses', 'test_noses.txt')
-IMG_DIR = os.path.join(BASE_PATH, 'oxford-iiit-pet-noses', 'images-original', 'images')
-MODEL_WEIGHTS_DIR = os.path.join(BASE_PATH, 'model_weights')
-OUTPUT_DIR = os.path.join(BASE_PATH, 'test_results')
-
-# Testing parameters
-BATCH_SIZE = 86
-NUM_VIS_SAMPLES = 4
+# Testing parameters from config
+BATCH_SIZE = CONFIG['testing']['batch_size']
+NUM_VIS_SAMPLES = CONFIG['testing']['num_vis_samples']
 
 
 # ============================================================================

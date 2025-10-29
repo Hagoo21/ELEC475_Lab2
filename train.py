@@ -1,4 +1,5 @@
 import os
+import json
 import time
 import torch
 import torch.nn as nn
@@ -11,6 +12,31 @@ from tqdm import tqdm
 from model import SnoutNet
 from dataset import PetNoseDataset
 from augmentations import KorniaAugmentation
+
+
+# ============================================================================
+# LOAD CONFIGURATION
+# ============================================================================
+
+def load_config():
+    """Load configuration from config.json"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+# Load config
+CONFIG = load_config()
+BASE_PATH = CONFIG['base_path']
+
+# Construct default paths from config
+DEFAULT_TRAIN_FILE = os.path.join(BASE_PATH, CONFIG['paths']['train_file'])
+DEFAULT_TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
+DEFAULT_IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
+DEFAULT_WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['weights_dir'])
+DEFAULT_EPOCHS = CONFIG['training']['epochs']
+DEFAULT_BATCH_SIZE = CONFIG['training']['batch_size']
+DEFAULT_LR = CONFIG['training']['learning_rate']
+DEFAULT_NUM_WORKERS = CONFIG['training']['num_workers']
 
 
 def train_one_epoch(model, dataloader, criterion, optimizer, device, augmentor=None):
@@ -86,15 +112,25 @@ def save_losses_to_csv(train_losses, val_losses, save_path='training_losses.csv'
     print(f"Losses saved to {save_path}")
 
 
-def train(train_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt', 
-          test_file=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt',
-          img_dir=r'C:\Users\20sr91\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images',
-          epochs=50,
-          batch_size=86,
-          lr=0.001,
+def train(train_file=None, 
+          test_file=None,
+          img_dir=None,
+          epochs=None,
+          batch_size=None,
+          lr=None,
           augment=False,
-          weights_dir=r'C:\Users\20sr91\ELEC475_Lab2\weights',
-          num_workers=0):
+          weights_dir=None,
+          num_workers=None):
+    
+    # Use config defaults if not specified
+    train_file = train_file or DEFAULT_TRAIN_FILE
+    test_file = test_file or DEFAULT_TEST_FILE
+    img_dir = img_dir or DEFAULT_IMG_DIR
+    epochs = epochs if epochs is not None else DEFAULT_EPOCHS
+    batch_size = batch_size if batch_size is not None else DEFAULT_BATCH_SIZE
+    lr = lr if lr is not None else DEFAULT_LR
+    weights_dir = weights_dir or DEFAULT_WEIGHTS_DIR
+    num_workers = num_workers if num_workers is not None else DEFAULT_NUM_WORKERS
     
     # Create timestamped output folder for this training run
     timestamp = time.strftime('%Y%m%d_%H%M%S')

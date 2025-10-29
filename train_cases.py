@@ -13,9 +13,11 @@ Instructions:
 - Uncomment ONE case at a time to run it
 - Comment out the other cases
 - Each case is clearly marked with a header
+- Update base_path in config.json if needed
 """
 
 import os
+import json
 import time
 import torch
 import torch.nn as nn
@@ -26,6 +28,21 @@ from tqdm import tqdm
 
 from dataset import PetNoseDataset
 from augmentations import KorniaAugmentation
+
+
+# ============================================================================
+# LOAD CONFIGURATION
+# ============================================================================
+
+def load_config():
+    """Load configuration from config.json"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+# Load config
+CONFIG = load_config()
+BASE_PATH = CONFIG['base_path']
 
 
 # ============================================================================
@@ -230,16 +247,17 @@ def train_model(model, model_name, train_file, test_file, img_dir,
 # DATA PATHS (SHARED BY ALL CASES)
 # ============================================================================
 
-TRAIN_FILE = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\train_noses.txt'
-TEST_FILE = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\test_noses.txt'
-IMG_DIR = r'C:\Users\20mmz2\ELEC475_Lab2\oxford-iiit-pet-noses\images-original\images'
-WEIGHTS_DIR = r'C:\Users\20mmz2\ELEC475_Lab2\weights'
+# Construct absolute paths from config
+TRAIN_FILE = os.path.join(BASE_PATH, CONFIG['paths']['train_file'])
+TEST_FILE = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
+IMG_DIR = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
+WEIGHTS_DIR = os.path.join(BASE_PATH, CONFIG['paths']['weights_dir'])
 
-# Training hyperparameters
-EPOCHS = 20
-BATCH_SIZE = 86
-LEARNING_RATE = 0.001
-NUM_WORKERS = 0
+# Training hyperparameters from config
+EPOCHS = CONFIG['training']['epochs']
+BATCH_SIZE = CONFIG['training']['batch_size']
+LEARNING_RATE = CONFIG['training']['learning_rate']
+NUM_WORKERS = CONFIG['training']['num_workers']
 
 
 # ============================================================================

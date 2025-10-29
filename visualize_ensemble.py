@@ -1,4 +1,5 @@
 import os
+import json
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
@@ -7,6 +8,21 @@ from PIL import Image
 
 from ensemble_model import SnoutNetEnsemble
 from dataset import PetNoseDataset
+
+
+# ============================================================================
+# LOAD CONFIGURATION
+# ============================================================================
+
+def load_config():
+    """Load configuration from config.json"""
+    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+# Load config
+CONFIG = load_config()
+BASE_PATH = CONFIG['base_path']
 
 
 def compute_euclidean_distance(pred_coords, true_coords):
@@ -220,23 +236,22 @@ def evaluate_ensemble(ensemble, dataset, batch_size=32):
 def main():
     """
     Main function to run ensemble visualization.
-    Assumes weight files are stored in the 'model weights' folder.
+    Assumes weight files are stored in the 'model_weights' folder.
+    Paths are loaded from config.json
     """
     print("\n" + "=" * 70)
     print("SnoutNet Ensemble Visualization")
     print("=" * 70)
     
-    # Set paths using absolute paths
-    base_path = r'C:/Users/20mmz2/ELEC475_Lab2'
+    # Default weight file paths from config
+    model_weights_dir = os.path.join(BASE_PATH, CONFIG['paths']['model_weights_dir'])
+    snoutnet_path = os.path.join(model_weights_dir, 'SnoutNet.pt')
+    alexnet_path = os.path.join(model_weights_dir, 'SnoutNetAlexNet.pt')
+    vgg16_path = os.path.join(model_weights_dir, 'SnoutNetVGG16.pt')
     
-    # Default weight file paths
-    snoutnet_path = os.path.join(base_path, 'model_weights', 'SnoutNet.pt')
-    alexnet_path = os.path.join(base_path, 'model_weights', 'SnoutNetAlexNet.pt')
-    vgg16_path = os.path.join(base_path, 'model_weights', 'SnoutNetVGG16.pt')
-    
-    # Test dataset paths
-    test_file = os.path.join(base_path, 'oxford-iiit-pet-noses', 'test_noses.txt')
-    img_dir = os.path.join(base_path, 'oxford-iiit-pet-noses', 'images-original', 'images')
+    # Test dataset paths from config
+    test_file = os.path.join(BASE_PATH, CONFIG['paths']['test_file'])
+    img_dir = os.path.join(BASE_PATH, CONFIG['paths']['img_dir'])
     
     print(f"\nWeight files:")
     print(f"  SnoutNet:  {snoutnet_path}")

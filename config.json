@@ -1,0 +1,22 @@
+{
+    "base_path": "C:/Users/shaya/ELEC475_Lab2",
+    "paths": {
+        "train_file": "oxford-iiit-pet-noses/train_noses.txt",
+        "test_file": "oxford-iiit-pet-noses/test_noses.txt",
+        "img_dir": "oxford-iiit-pet-noses/images-original/images",
+        "model_weights_dir": "model_weights",
+        "weights_dir": "weights",
+        "test_results_dir": "test_results"
+    },
+    "training": {
+        "epochs": 20,
+        "batch_size": 86,
+        "learning_rate": 0.001,
+        "num_workers": 0
+    },
+    "testing": {
+        "batch_size": 86,
+        "num_vis_samples": 4
+    }
+}
+
