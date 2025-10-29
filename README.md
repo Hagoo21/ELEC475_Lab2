@@ -19,6 +19,8 @@ Setup Instructions:
    - SnoutNet-V.txt (VGG16-based variant)
    - SnoutNet-Ensemble.txt (Ensemble model)
 
+4. Make sure to add the images folder with the pet noses to this directory: oxford-iiit-per-noses/images-original
+
 No Configuration Changes Needed:
 Just make sure to run all commands from the project root directory.
 
